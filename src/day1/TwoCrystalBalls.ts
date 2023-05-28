@@ -4,22 +4,49 @@ export default function two_crystal_balls(breaks: boolean[]): number {
     However, this can be implemented n O(N^(1/2)) by jumping a step-size of N^(1/2) instead.
     */
 
-    const sqrtN = Math.pow(breaks.length, 0.5)
-    let jumpBreakIdx: number = -1;
-
-    //Jump by step-size sqrtN
-    for (let i = 0; i <breaks.length; i+=sqrtN) {
-        if (breaks[i]) {
-            jumpBreakIdx = i
+    function oSqrtN() {
+        const sqrtN = Math.pow(breaks.length, 0.5)
+        let jumpBreakIdx: number = -1;
+        
+        //Jump by step-size sqrtN
+        for (let i = 0; i <breaks.length; i+=sqrtN) {
+            if (breaks[i]) {
+                jumpBreakIdx = i
+            }
         }
+    
+        //Linear search to failure
+        for (let j = 0; j < jumpBreakIdx; j++) {
+            if (breaks[j]) {
+                jumpBreakIdx = j
+            }
+        }
+        return jumpBreakIdx
     }
 
-    //Linear search to failure
-    for (let j = 0; j < jumpBreakIdx; j++) {
-        if (breaks[j]) {
-            jumpBreakIdx = j
+    function oN() {
+        const halfN = 0.5*breaks.length
+        let jumpBreakIdx: number = -1;
+        
+        //Jump by step-size 0.5N
+        for (let i = 0; i <breaks.length; i+=halfN) {
+            if (breaks[i]) {
+                jumpBreakIdx = i
+            }
         }
+    
+        //Linear search to failure
+        for (let j = 0; j < jumpBreakIdx; j++) {
+            if (breaks[j]) {
+                jumpBreakIdx = j
+            }
+        }
+        return jumpBreakIdx
     }
+
+    //Compare between two approaches
+    const jumpBreakIdx = oSqrtN()
+    // const jumpBreakIdx = oN()
 
     return jumpBreakIdx
 }
