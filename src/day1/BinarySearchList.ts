@@ -12,7 +12,7 @@ export default function bs_list(haystack: number[], needle: number): boolean {
         if (needle === arr[halfpoint]) {
             return true
         } else if (needle > arr[halfpoint]) {
-            return half(arr.slice(halfpoint+1, arr.length))
+            return half(arr.slice(halfpoint+1, arr.length)) //Slicing is very expensive, this can be replaced with just sending a start and end indices into the recursive function
         } else {
             return half(arr.slice(0, halfpoint))
         }
