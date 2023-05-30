@@ -1,39 +1,38 @@
-//The recursion function
 function qs(arr: number[], lo: number, hi: number): void {
+    //Base condition
     if (lo>=hi) {
         return;
     }
 
     const pivotIdx = partition(arr, lo, hi);
 
-    //Inclusive ending
-    qs(arr, lo, pivotIdx - 1); //Low
-    qs(arr, pivotIdx + 1, hi); //High
+    qs(arr, lo, pivotIdx-1);
+    qs(arr, pivotIdx+1, hi);
 }
 
-function partition(arr: number[], lo: number, hi: number): number {
-    const pivot = arr[hi];
+function partition(arr: number[], lo: number, hi: number): number { //Return the pivot index
+    const pivot = arr[hi]; //There are other ways to assign pivot
 
-    let idx = lo - 1; 
+    let i = lo - 1;
 
-    for (let i = lo; i < hi; i++) {
-        if (arr[i] <= pivot) {
-            idx++;
+    for (let j = lo; j < hi; ++j) {
+        if (arr[j] <= pivot) {
+            i++;
 
-            const tmp = arr[i];
-            arr[i] = arr[idx];
-            arr[idx] = tmp;
+            //Swap
+            const tmp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = tmp;
         }
     }
 
-    idx++;
-    arr[hi] = arr[idx];
-    arr[idx] = pivot;
+    i++;
+    arr[hi] = arr[i];
+    arr[i] = pivot;
 
-    return idx;
+    return i;
 }
 
-
 export default function quick_sort(arr: number[]): void {
-    qs(arr, 0, arr.length - 1);
+    qs(arr, 0, arr.length-1)
 }
