@@ -1,38 +1,41 @@
 function qs(arr: number[], lo: number, hi: number): void {
-    //Base condition
+    //Base case
     if (lo>=hi) {
         return;
     }
 
     const pivotIdx = partition(arr, lo, hi);
 
-    qs(arr, lo, pivotIdx-1);
-    qs(arr, pivotIdx+1, hi);
+    qs(arr, lo, pivotIdx-1) //Left side of pivot
+    qs(arr, pivotIdx+1, hi) //Right side of pivot
 }
 
-function partition(arr: number[], lo: number, hi: number): number { //Return the pivot index
-    const pivot = arr[hi]; //There are other ways to assign pivot
-
-    let i = lo - 1;
-
-    for (let j = lo; j < hi; ++j) {
-        if (arr[j] <= pivot) {
-            i++;
-
-            //Swap
-            const tmp = arr[j];
-            arr[j] = arr[i];
-            arr[i] = tmp;
+function partition(arr: number[], lo: number, hi: number): number { //Return pivotIdx
+    const pivot = arr[hi];
+    
+    //Destination value to be swapped with walked arrays that match the condition below
+    let destIdx = lo - 1; //Start with -1, and increment every time the condition below matches and after walk is finished
+    
+    //Perform walk
+    for (let walkIdx = lo; walkIdx < hi; walkIdx++) {
+        if (arr[walkIdx] <= pivot) { //If the value of current walked array is smaller than pivot,
+            destIdx++
+            
+            //Swap between current value and the destination value
+            const tmp = arr[walkIdx];
+            arr[walkIdx] = arr[destIdx]
+            arr[destIdx] = tmp;
         }
     }
 
-    i++;
-    arr[hi] = arr[i];
-    arr[i] = pivot;
+    //After walk
+    destIdx++;
+    arr[hi] = arr[destIdx]; //These are side-by-side swaps
+    arr[destIdx] = pivot; //Move pivot value into its actual position in the sort
 
-    return i;
+    return destIdx; //Return the new pivot index
 }
 
 export default function quick_sort(arr: number[]): void {
-    qs(arr, 0, arr.length-1)
+    qs(arr, 0, arr.length - 1)
 }
