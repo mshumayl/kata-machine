@@ -9,7 +9,7 @@ export default function bfs(head: BinaryNode<number>, needle: number): boolean {
         const curr = q.shift() as BinaryNode<number> | null | undefined; //Pretend this is an actual queue. In reality, this is a JS ArrayList which have high costs for shift() and unshift()
 
         if (!curr) { //If q.shift() is done on a empty queue
-            continue; //Continue to next iteration.
+            continue; //Continue to next iteration (i.e. exit, as there is no more item in the queue)
         }
 
         //Perform search
@@ -17,8 +17,8 @@ export default function bfs(head: BinaryNode<number>, needle: number): boolean {
             return true;
         }
 
-        //If the current iteration was not continued or returned, push children into stack
-        q.push(curr.left);
+        //If the current iteration was not continued or returned, push children into queue
+        q.push(curr.left); //curr is one of BinaryNode<number> | null | undefined
         q.push(curr.right);
     }
 
